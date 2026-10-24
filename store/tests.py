@@ -133,7 +133,7 @@ class CheckoutTests(SetupMixin, TestCase):
         self.assertEqual(order.subtotal, 180_000)
         self.assertEqual(order.shipping_cost, 60_000)
         self.book.refresh_from_db()
-        self.assertEqual(self.book.stock, 5)  # کسر موجودی هنگام پرداخت واقعی/تسویه انجام می‌شود
+        self.assertEqual(self.book.stock, 3)  # موجودی رزروشده هنگام ثبت سفارش کم می‌شود
 
     def test_wallet_paid_order_awards_kebab(self):
         self.client.force_login(self.user)
@@ -208,6 +208,22 @@ class KebabWheelTests(SetupMixin, TestCase):
         settle_order_discounts(order, "cancelled")
         self.kebab.refresh_from_db()
         self.assertEqual(self.kebab.points, 0)
+
+    def test_cancel_restocks_items(self):
+        from .wallet_services import settle_order_discounts
+        order = Order.objects.create(user=self.user, tracking_code="RESTCK1", customer_name="م", phone="09120000000", shipping_method="pickup", subtotal=180_000, status="paid")
+        OrderItem.objects.create(order=order, book=self.book, title_snapshot=self.book.title, unit_price=90_000, quantity=2)
+        self.book.stock = 3
+        self.book.save()
+        settle_order_discounts(order, "cancelled")
+        self.book.refresh_from_db()
+        self.assertEqual(self.book.stock, 5)
+        order.refresh_from_db()
+        self.assertTrue(order.stock_released)
+        # اجرای دوباره نبود تغییر مضاعف
+        settle_order_discounts(order, "refunded")
+        self.book.refresh_from_db()
+        self.assertEqual(self.book.stock, 5)
 
 
 class AuthTests(SetupMixin, TestCase):

@@ -330,6 +330,11 @@ def checkout(request):
                 )
             if order.status == "paid":
                 award_kebab_for_order(order)
+            # کسر موجودی رزروشدهٔ هر کتاب هنگام ثبت سفارش تا فروش بی‌از رخ ندهد
+            for line in locked_lines:
+                book = line["book"]
+                book.stock = max(0, book.stock - line["quantity"])
+            Book.objects.bulk_update([line["book"] for line in locked_lines], ["stock"], batch_size=100)
 
         request.session["cart"] = {}
         request.session["last_order_id"] = order.id

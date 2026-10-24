@@ -261,6 +261,7 @@ class Order(models.Model):
     coupon = models.ForeignKey(Coupon, null=True, blank=True, on_delete=models.SET_NULL, related_name="orders", verbose_name="کد تخفیف")
     coupon_discount = models.PositiveIntegerField("مبلغ تخفیف (تومان)", default=0)
     wallet_amount = models.PositiveIntegerField("پرداخت از کیف پول (تومان)", default=0)
+    stock_released = models.BooleanField("موجودی بازگردانده شده", default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering = ["-created_at"]

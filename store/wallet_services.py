@@ -105,10 +105,29 @@ def revoke_kebab_for_order(order, actor=None):
 
 
 @transaction.atomic
+def restock_order_items(order):
+    """بازگرداندن موجودی اقلام سفارش در لغو/استرداد (فقط یک بار برای هر سفارش)."""
+    locked = Order.objects.select_for_update().get(pk=order.pk)
+    if locked.stock_released:
+        return False
+    from .models import Book, OrderItem
+
+    items = list(OrderItem.objects.filter(order=locked, book__isnull=False).select_related("book"))
+    for item in items:
+        item.book.stock += item.quantity
+    if items:
+        Book.objects.bulk_update([item.book for item in items], ["stock"], batch_size=100)
+    locked.stock_released = True
+    locked.save(update_fields=["stock_released"])
+    return True
+
+
+@transaction.atomic
 def settle_order_discounts(order, status, actor=None):
     if status in {"cancelled", "refunded"}:
         refund_order_wallet(order, actor)
         revoke_kebab_for_order(order, actor)
+        restock_order_items(order)
         CouponRedemption.objects.filter(order=order, status__in=("reserved", "used")).update(status="released")
     elif status == "paid":
         CouponRedemption.objects.filter(order=order, status="reserved").update(status="used")
