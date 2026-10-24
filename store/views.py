@@ -151,7 +151,15 @@ def cart_detail(request):
     notice = request.session.pop("cart_notice", None)
     if notice:
         messages.warning(request, notice)
-    return render(request, "store/cart.html", {"lines": lines, "total": total})
+    store_settings = StoreSetting.load()
+    threshold = store_settings.free_shipping_threshold
+    free_ship_remaining = max(0, threshold - total) if threshold and threshold > total else None
+    free_ship_active = bool(threshold) and total >= threshold
+    return render(request, "store/cart.html", {
+        "lines": lines, "total": total,
+        "free_ship_remaining": free_ship_remaining, "free_ship_active": free_ship_active,
+        "free_ship_threshold": threshold,
+    })
 
 @require_POST
 def cart_add(request, book_id):
