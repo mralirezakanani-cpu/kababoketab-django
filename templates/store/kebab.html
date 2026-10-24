@@ -1,0 +1,96 @@
+{% extends "store/base.html" %}{% load fa %}
+{% block title %}سیخ کباب‌های من | کباب و کتاب{% endblock %}
+{% block meta_description %}با ثبت‌نام و خرید از کباب و کتاب سیخ کباب جمع کنید، گردونهٔ شانس را بچرخانید و با سیخ کباب و اعتبار کیف پول کتاب بخرید.{% endblock %}
+{% block content %}
+<div class="kebab-hero">
+<div class="kicon">🍢</div>
+<div>
+<h1>سیخ کباب‌های من</h1>
+<p class="muted">توی سایت ثبت‌نام کن؛ گردونهٔ شانس را بچرخان؛ سیخ کباب و پول جمع کن؛ کتاب بخر!</p>
+{% if not user.is_authenticated %}<a class="btn" href="{% url 'login' %}">عضویت / ورود</a>{% endif %}
+</div>
+</div>
+
+{% if user.is_authenticated %}
+<div class="kebab-points">
+<div><b>🍢 {{ kebab_account.points }}</b><span class="muted">سیخ کباب فعلی</span></div>
+<div><b>{{ kebab_account.total_earned }}</b><span class="muted">مجموع کسب‌شده</span></div>
+<div><b>{{ kebab_settings.kebab_per_10000 }}</b><span class="muted">سیخ به‌ازای هر ۱۰٬۰۰۰ تومان خرید</span></div>
+</div>
+{% endif %}
+
+<section class="section">
+<div class="sectionhead"><h2>گردونهٔ شانس</h2></div>
+<div class="wheelbox">
+<div class="wheel-pointer">▼</div>
+<div class="wheel" id="wheel"><div class="wheel-label"><b>گردونهٔ<br>شانس</b></div></div>
+{% if user.is_authenticated %}
+{% if cooldown_ok %}
+{% if prizes %}
+<form method="post" action="{% url 'wheel_spin' %}" style="text-align:center">{% csrf_token %}
+<button class="btn" type="submit" onclick="spinWheel(this)">🎡 چرخاندن گردونه</button>
+</form>
+<p class="muted small" style="font-size:12px">هر {{ kebab_settings.wheel_cooldown_days }} روز یک بار می‌توانید بچرخانید.</p>
+{% else %}<p class="empty">فعلاً جایزه‌ای برای گردونه تعریف نشده است.</p>{% endif %}
+{% else %}
+<p class="message warning">چرخش بعدی شما پس از {{ next_spin_at|date:"Y/m/d — H:i" }} فعال می‌شود.</p>
+{% endif %}
+{% else %}
+<p class="muted">برای چرخاندن گردونه ابتدا <a href="{% url 'login' %}">وارد شوید</a> یا <a href="{% url 'register' %}">ثبت‌نام کنید</a>.</p>
+{% endif %}
+</div>
+<div class="infoitems">
+{% for prize in prizes %}
+<section><b>{{ prize.label }}</b><p class="muted" style="margin:4px 0 0">{% if prize.kind == 'points' %}🍢 {{ prize.amount }} سیخ کباب{% elif prize.kind == 'wallet' %}💰 {{ prize.amount }} تومان کیف پول{% else %}شانس برای نوبت بعد{% endif %}</p></section>
+{% empty %}
+<section class="empty">جایزه‌ای تعریف نشده است.</section>
+{% endfor %}
+</div>
+</section>
+
+{% if leaders %}
+<section class="section">
+<div class="sectionhead"><h2>فعال‌ترین کاربران سایت تا به این لحظه</h2></div>
+<div class="leaderboard">
+<table>
+<thead><tr><th>رتبه</th><th>کاربر</th><th>مجموع سیخ کباب</th></tr></thead>
+<tbody>
+{% for leader in leaders %}
+<tr {% if leader.user == user %}class="me"{% endif %}>
+<td><span class="rank-badge {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">{{ forloop.counter }}</span></td>
+<td>{{ leader.user.get_full_name|default:leader.user.username }}</td>
+<td>🍢 {{ leader.total_earned }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+{% endif %}
+
+{% if user.is_authenticated %}
+<section class="section">
+<div class="sectionhead"><h2>گردش سیخ کباب من</h2></div>
+<div class="contentbox">
+{% if ledger %}
+<table class="plain">
+<thead><tr><th>نوع</th><th>تغییر</th><th>توضیح</th><th>تاریخ</th></tr></thead>
+<tbody>
+{% for entry in ledger %}
+<tr><td>{{ entry.get_kind_display }}</td><td>{% if entry.points_change >= 0 %}+{{ entry.points_change }}{% else %}{{ entry.points_change }}{% endif %}</td><td>{{ entry.reason }}</td><td>{{ entry.created_at|date:"Y/m/d" }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}<p class="muted">هنوز گردشی ثبت نشده؛ با اولین خریدتان سیخ کباب جمع کنید!</p>{% endif %}
+</div>
+</section>
+{% endif %}
+
+<script>
+function spinWheel(btn){
+  const wheel=document.getElementById('wheel');
+  if(wheel){wheel.style.transform='rotate('+(1440+Math.floor(Math.random()*360))+'deg)';}
+  return true;
+}
+</script>
+{% endblock %}

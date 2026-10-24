@@ -1,0 +1,4 @@
+{% extends "admin/base.html" %}{% load static %}{% block title %}{{ title }} | کباب و کتاب{% endblock %}{% block branding %}<h1 id="site-name"><a href="{% url 'admin:index' %}"><strong><span>کباب</span><b>و کتاب</b></strong><small>پنل مدیریت فروشگاه</small></a></h1>{% endblock %}{% block nav-global %}<nav class="kb-admin-nav" aria-label="ناوبری پنل"><a href="/">مشاهده فروشگاه</a><a href="{% url 'admin:index' %}">داشبورد</a><a href="{% url 'admin:store_book_changelist' %}">کتاب‌ها</a><a href="{% url 'admin:store_order_changelist' %}">سفارش‌ها</a><a href="{% url 'admin:store-customers' %}">مشتریان</a><a href="{% url 'admin:store_wallettransaction_changelist' %}">کیف پول</a><a href="{% url 'admin:store_coupon_changelist' %}">کد تخفیف</a></nav>{% endblock %}{% block responsive %}{{ block.super }}<link rel="stylesheet" href="{% static 'admin/kabab-admin.css' %}?v=20261016d">{% endblock %}
+
+
+

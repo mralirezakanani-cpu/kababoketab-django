@@ -1,0 +1,96 @@
+{% extends "store/base.html" %}{% load fa %}
+{% block title %}خرید آنلاین کتاب با تخفیف | کتابفروشی کباب و کتاب{% endblock %}
+{% block meta_description %}خرید کتاب و خرید آنلاین کتاب از کتابفروشی کباب و کتاب؛ رمان، کتاب کودک و ادبیات با تخفیف، ارسال سریع، ضمانت سلامت و دسترسی به خلاصه کتاب‌ها{% endblock %}
+{% block content %}
+
+<section class="intro-seo">
+<h1>خرید آنلاین کتاب از کتابفروشی کباب و کتاب</h1>
+<p>خرید آنلاین کتاب از کتابفروشی کباب و کتاب یعنی دسترسی راحت به جدیدترین و پرفروش‌ترین کتاب‌ها؛ با تخفیف و ارسال سریع. ما اینجا هستیم تا حال‌وهوای مطالعه را برایتان لذت‌بخش‌تر کنیم؛ چون باور داریم «کتاب، خوشمزه عینِ کباب!» است. اگر به دنبال یک راه ساده و مطمئن برای خرید آنلاین کتاب هستید، مجموعه‌ای از بهترین آثار نشر چشمه، ققنوس و ناشران مطرح دیگر را دور هم جمع کرده‌ایم تا خیلی راحت و با چند کلیک، کتاب‌های محبوبتان را پیدا کنید.</p>
+</section>
+
+{% if categories %}
+<section class="section">
+<div class="sectionhead"><h2>از کجا شروع کنیم؟</h2><a href="{% url 'book_list' %}">همهٔ موضوع‌ها ←</a></div>
+<div class="chips">{% for category in categories %}<a href="{% url 'book_list' %}?category={{ category.slug }}">{{ category.name }}</a>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if publisher_rows %}
+<section class="section">
+<div class="sectionhead"><h2>ناشران</h2><a href="{% url 'book_list' %}">تمام ناشران ←</a></div>
+<div class="publisher-strip">
+{% for row in publisher_rows %}<a href="{% url 'book_list' %}?publisher={{ row.publisher.slug }}"><span class="plogo">{{ row.publisher.name|slice:":1" }}</span>{{ row.publisher.name }}</a>{% endfor %}
+</div>
+</section>
+{% endif %}
+
+{% if featured %}
+<section class="section">
+<div class="sectionhead"><h2>پیشنهادهای ویژه</h2><a href="{% url 'book_list' %}?discounted=1">کتاب‌های تخفیف‌دار ←</a></div>
+<div class="bookgrid">{% for book in featured %}{% include 'store/_book_card.html' with book=book %}{% endfor %}</div>
+</section>
+{% endif %}
+
+{% for row in publisher_rows %}
+<section class="section">
+<div class="sectionhead"><h2>{{ row.publisher.name }}</h2><a href="{% url 'book_list' %}?publisher={{ row.publisher.slug }}">تمام کتاب‌های {{ row.publisher.name }} ←</a></div>
+<div class="pubrow">{% for book in row.books %}{% include 'store/_book_card.html' with book=book %}{% endfor %}</div>
+</section>
+{% endfor %}
+
+<section class="section">
+<div class="sectionhead"><h2>چرا کباب و کتاب برای خرید آنلاین کتاب انتخاب خوبی است؟</h2></div>
+<div class="why">
+<div><span class="ticon">📦</span><h3>ضمانت سلامت فیزیکی</h3><p>کتاب‌ها را با وسواس بسته‌بندی می‌کنیم تا تمیز و سالم به دستتان برسد.</p></div>
+<div><span class="ticon">🚚</span><h3>ارسال سریع</h3><p>نمی‌گذاریم برای شروع یک کتاب خوب خیلی منتظر بمانید.</p></div>
+<div><span class="ticon">🏷️</span><h3>تخفیف‌های دوست‌داشتنی</h3><p>همیشه تلاش می‌کنیم خرید کتاب را برایتان به‌صرفه‌تر کنیم.</p></div>
+</div>
+</section>
+
+<section class="section">
+<div class="sectionhead"><h2>سیخ کباب جمع کن؛ کتاب بخر!</h2><a href="{% url 'kebab' %}">سیخ کباب‌های من ←</a></div>
+<div class="kebab-hero" style="margin-top:0">
+<div class="kicon">🍢</div>
+<div><h3 style="margin:0 0 4px">توی سایت ثبت‌نام کن؛ گردونهٔ شانس را بچرخان؛ سیخ کباب و پول جمع کن؛ کتاب بخر!</h3><p class="muted" style="margin:0">با هر خرید، به‌ازای هر ۱۰٬۰۰۰ تومان {{ settings.kebab_per_10000 }} سیخ کباب می‌گیری و با خرید بالای سقف ارسال، ارسال‌ات رایگان می‌شود.</p></div>
+<a class="btn" href="{% url 'kebab' %}">چرخاندن گردونه</a>
+</div>
+</section>
+
+{% if bestsellers %}
+<section class="section">
+<div class="sectionhead"><h2>کتاب‌های پرفروش</h2><a href="{% url 'book_list' %}?sort=popular">مشاهده همه ←</a></div>
+<div class="bookgrid">{% for book in bestsellers %}{% include 'store/_book_card.html' with book=book %}{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if topics %}
+<section class="section">
+<div class="sectionhead"><h2>بهترین خلاصه کتاب‌ها در موضوعات متفاوت</h2><a href="{% url 'article_list' %}">همهٔ خلاصه‌ها ←</a></div>
+<div class="chips">{% for topic in topics %}<a href="{% url 'article_list' %}?topic={{ topic.pk }}">{{ topic.name }}</a>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if articles %}
+<section class="section">
+<div class="sectionhead"><h2>خلاصه‌های تازه</h2><a href="{% url 'article_list' %}">همهٔ خلاصه‌ها ←</a></div>
+<div class="articlegrid">{% for article in articles %}<a class="articlecard" href="{% url 'article_detail' article.slug %}"><span class="articleicon">{% if article.premium %}💎{% else %}📖{% endif %}</span><div><h3>{{ article.title }}</h3><p>{{ article.excerpt|truncatechars:100 }}</p><small>{% if article.premium %}ویژهٔ اعضای الماسی{% else %}رایگان برای همه{% endif %}</small></div></a>{% endfor %}</div>
+</section>
+{% endif %}
+
+{% if kebab_leaders %}
+<section class="section">
+<div class="sectionhead"><h2>فعال‌ترین کاربران سایت تا به این لحظه</h2><a href="{% url 'kebab' %}">جدول کامل ←</a></div>
+<div class="leaderboard">
+<table>
+<thead><tr><th>رتبه</th><th>کاربر</th><th>مجموع سیخ کباب</th></tr></thead>
+<tbody>
+{% for leader in kebab_leaders %}
+<tr><td><span class="rank-badge {% if forloop.counter == 1 %}gold{% elif forloop.counter == 2 %}silver{% elif forloop.counter == 3 %}bronze{% endif %}">{{ forloop.counter }}</span></td><td>{{ leader.user.get_full_name|default:leader.user.username }}</td><td>🍢 {{ leader.total_earned }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+</section>
+{% endif %}
+
+{% endblock %}

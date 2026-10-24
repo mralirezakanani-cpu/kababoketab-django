@@ -1,0 +1,378 @@
+/* ===================================================================
+   کباب و کتاب — قالب برند مطابق سایت اصلی
+   پالت: قرمز #e32626، فیروزه‌ای #178888، نارنجی #e37c26
+   =================================================================== */
+@font-face{font-family:"Vazirmatn";src:url("../fonts/Vazirmatn-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Vazirmatn";src:url("../fonts/Vazirmatn-Medium.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"Vazirmatn";src:url("../fonts/Vazirmatn-Bold.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Vazirmatn";src:url("../fonts/Vazirmatn-Black.woff2") format("woff2");font-weight:900;font-display:swap}
+
+:root{
+  --red:#e32626;--red-dark:#c21d1d;--teal:#178888;--teal-dark:#116b6b;--teal-light:#e6f3f2;
+  --orange:#e37c26;--ink:#222;--muted:#6b6b6b;--line:#e8e8e8;--bg:#ffffff;--soft:#f7f7f7;
+  --radius:6px;--shadow:0 1px 6px rgba(0,0,0,.08);
+  --font:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.9;padding-bottom:0!important}
+a{color:inherit;text-decoration:none;transition:color .15s}
+img{max-width:100%}
+button,input,select,textarea{font:inherit}
+button,.btn{cursor:pointer}
+.wrap{width:min(1200px,94%);margin-inline:auto}
+h1,h2,h3,h4{line-height:1.6}
+
+/* ---------- نوار بالا ---------- */
+.topbar{background:#1d1d1d;color:#fff;font-size:12.5px;padding:6px 0}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.topbar a{color:#59c3bd;font-weight:500}
+.topbar .topbar-links{display:flex;gap:16px}
+.topbar .topbar-links a{color:#fff}
+.topbar .topbar-links a:hover{color:#59c3bd}
+.topbar-phones{display:flex;gap:14px;white-space:nowrap}
+
+/* ---------- هدر ---------- */
+.header{background:#fff;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px;padding-block:14px;border-bottom:1px solid var(--line)}
+.header-account{display:flex;align-items:center;gap:8px}
+.header-account form{margin:0}
+.headbutton{background:var(--red);color:#fff;border-radius:var(--radius);padding:8px 14px;font-size:13px;font-weight:700;display:inline-block}
+.headbutton:hover{background:var(--red-dark);color:#fff}
+.mutedbutton{background:var(--teal)}
+.mutedbutton:hover{background:var(--teal-dark)}
+.cartbutton{background:var(--teal);color:#fff;border-radius:var(--radius);padding:8px 14px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+.cartbutton:hover{background:var(--teal-dark);color:#fff}
+.cartbutton .cart-badge{background:#fff;color:var(--teal);border-radius:20px;min-width:20px;height:20px;display:grid;place-items:center;font-size:12px;padding-inline:5px}
+.brand{display:block;text-align:center;font-size:30px;line-height:1.15;white-space:nowrap}
+.brand strong{display:flex;justify-content:center;gap:4px;font-weight:900;letter-spacing:-1px}
+.brand strong .b1{color:var(--red)}
+.brand strong .b2{color:var(--teal)}
+.brand small{display:block;font-size:11px;color:#888;font-weight:400;letter-spacing:0}
+.search{display:flex;height:42px;border:1.5px solid #e9b7b8;border-radius:var(--radius);background:#fff;overflow:hidden;justify-self:end;width:230px}
+.search input{background:transparent;border:0;outline:0;flex:1;padding:8px 14px;min-width:60px;font-size:13px}
+.search button{border:0;background:transparent;color:#555;font-size:22px;padding:0 14px;line-height:1}
+.search button:hover{color:var(--red)}
+
+/* ---------- منوی اصلی قرمز ---------- */
+.nav{background:var(--red);box-shadow:0 2px 5px rgba(0,0,0,.12);position:sticky;top:0;z-index:30}
+.navlinks{min-height:48px;display:flex;align-items:center;padding:0;overflow-x:auto;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{color:#fff;padding:10px 16px;font-size:13.5px;font-weight:700;white-space:nowrap}
+.navlinks a:hover,.navlinks a.active{background:var(--red-dark);color:#fff}
+
+/* ---------- بدنه ---------- */
+.main{width:min(1200px,94%);min-height:55vh;padding-bottom:50px}
+.messages{padding-top:16px}
+.message{padding:11px 16px;background:var(--teal-light);border-right:4px solid var(--teal);border-radius:var(--radius);margin-bottom:8px;font-size:13.5px}
+.message.error{background:#fdecea;border-right-color:var(--red);color:#8f1d1d}
+.message.warning{background:#fef4e7;border-right-color:var(--orange);color:#8a5316}
+.message.success{background:#e9f6ee;border-right-color:#2e9e5b;color:#1d6b3d}
+
+/* ---------- دکمه‌ها ---------- */
+.btn{display:inline-block;border:0;background:var(--red);color:#fff;padding:10px 22px;border-radius:var(--radius);font-size:14px;font-weight:700;margin:4px 0;transition:background .15s}
+.btn:hover{background:var(--red-dark);color:#fff}
+.btn.teal{background:var(--teal)}
+.btn.teal:hover{background:var(--teal-dark)}
+.btn.outline{background:#fff;color:var(--teal);border:1.5px solid var(--teal)}
+.btn.outline:hover{background:var(--teal-light)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ---------- بنرهای اعتماد (روانشناسی فروش) ---------- */
+.trustbar{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;padding:18px 0}
+.trustbar .trust{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px 6px;font-size:12px;color:#444}
+.trustbar .trust .ticon{font-size:26px;line-height:1}
+
+/* ---------- بخش‌های صفحهٔ اصلی ---------- */
+.section{padding-top:38px}
+.sectionhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.sectionhead h2{margin:0;font-size:21px;font-weight:900;position:relative;padding-right:14px}
+.sectionhead h2::before{content:"";position:absolute;right:0;top:8px;bottom:8px;width:5px;border-radius:4px;background:var(--red)}
+.sectionhead>a{font-size:13px;color:var(--teal);font-weight:700}
+.sectionhead>a:hover{color:var(--red)}
+.bookgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.bookcard{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px;overflow:hidden;position:relative;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+.bookcard:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+.bookcard .bookinfo{min-height:110px;padding:8px 2px;flex:1}
+.bookcard .bookinfo h3{font-size:13.5px;margin:2px 0;line-height:1.75;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bookcard .bookinfo p{font-size:12px;color:var(--muted);margin:0}
+.price{display:flex;flex-direction:column;font-size:12px;margin-top:5px;min-height:44px;justify-content:flex-end}
+.price del{color:#b3b3b3;font-size:11.5px}
+.price strong{font-size:14.5px;font-weight:900}
+.price strong small{font-weight:400;font-size:11px}
+.price .offtag{display:inline-block;background:var(--red);color:#fff;border-radius:20px;padding:0 8px;font-size:11px;font-weight:700;margin-right:4px}
+.addbtn{width:100%;border:0;background:var(--teal);color:#fff;border-radius:var(--radius);padding:8px;font-size:13px;font-weight:700;transition:background .15s}
+.addbtn:hover{background:var(--teal-dark)}
+.addbtn:disabled{background:#c9c9c9;cursor:not-allowed}
+.cover{height:210px;background:#fafafa;border-radius:6px;display:grid;place-items:center;position:relative;overflow:hidden}
+.cover img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.coverplaceholder{font-size:46px;color:#c8c2b8;display:flex;flex-direction:column;align-items:center;gap:4px}
+.coverplaceholder small{font-size:11px;max-width:110px;text-align:center;color:#a09a90}
+.discount{position:absolute;top:8px;right:8px;background:var(--red);color:#fff;border-radius:20px;padding:1px 9px;font-size:11px;font-weight:700;z-index:2}
+.outbadge{position:absolute;top:8px;right:8px;background:#555;color:#fff;border-radius:20px;padding:1px 9px;font-size:11px;z-index:2}
+
+/* نوار لوگوی ناشران */
+.publisher-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;padding:6px 0 2px}
+.publisher-strip a{display:flex;flex-direction:column;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 8px;text-align:center;font-size:12.5px;font-weight:700;color:#555;transition:border-color .15s,color .15s}
+.publisher-strip a:hover{border-color:var(--teal);color:var(--teal)}
+.publisher-strip .plogo{width:54px;height:54px;border-radius:14px;background:var(--teal-light);color:var(--teal);display:grid;place-items:center;font-size:22px;font-weight:900}
+
+/* کاروسل ناشر (ردیف اسکرولی) */
+.pubrow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+
+/* چرا کباب و کتاب */
+.why{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:14px}
+.why>div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;text-align:center}
+.why .ticon{font-size:30px}
+.why h3{font-size:15px;margin:6px 0 2px}
+.why p{font-size:12.5px;color:var(--muted);margin:0}
+
+/* متن معرفی سئو */
+.intro-seo{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:22px 26px;font-size:13.5px;color:#444;line-height:2.1}
+.intro-seo h1{font-size:20px;margin:0 0 8px;color:var(--ink)}
+
+/* ---------- بردکرامب ---------- */
+.crumb{font-size:12.5px;color:#999;padding:16px 0 10px}
+.crumb a{color:var(--teal)}
+.crumb a:hover{color:var(--red)}
+
+/* ---------- صفحهٔ محصول ---------- */
+.productdetail{display:grid;grid-template-columns:1fr 1fr;gap:38px;padding:14px 0 22px;align-items:start}
+.productcover{background:#fff;border:1px solid var(--line);border-radius:10px;min-height:340px;display:grid;place-items:center;padding:14px}
+.productcover img{max-width:100%;max-height:520px;object-fit:contain;mix-blend-mode:multiply}
+.coverplaceholder.large{font-size:96px}
+.productbody h1{font-size:24px;margin:0 0 14px;line-height:1.6}
+.productprice{line-height:2;margin:0 0 14px;font-size:14px;display:flex;flex-direction:column;gap:2px}
+.productprice del{color:#b3b3b3}
+.currentprice strong{font-size:24px;font-weight:900;color:var(--ink)}
+.currentprice strong small{font-size:13px;font-weight:400}
+.discountline{display:flex;align-items:center;gap:10px;color:#a33}
+.discountline b{background:var(--red);color:#fff;padding:2px 12px;border-radius:5px;font-size:13px}
+.discountline em{font-style:normal;background:var(--red);color:#fff;border-radius:50%;width:46px;height:46px;display:grid;place-items:center;font-size:12px;font-weight:900;flex-shrink:0}
+.kebab-reward{background:#fff7ec;border:1px dashed var(--orange);color:#9a5a12;border-radius:8px;padding:9px 14px;margin:14px 0;font-size:13px;font-weight:700}
+.product-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0}
+.product-actions input[type=number],.product-actions input:not([type]){width:64px;border:1px solid #ddd;border-radius:var(--radius);padding:9px;text-align:center}
+.product-actions .addbtn{width:auto;background:var(--red);padding:10px 26px;font-size:14.5px}
+.product-actions .addbtn:hover{background:var(--red-dark)}
+.stock{font-size:13px;color:#777}
+.stock.ok{color:#2e9e5b;font-weight:700}
+.stock.none{color:var(--red);font-weight:700}
+.guarantee-row{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.guarantee-row span{background:var(--teal-light);color:var(--teal-dark);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700}
+.bookfacts{display:grid;grid-template-columns:1fr;gap:6px;margin:8px 0}
+.bookfacts>div{display:grid;grid-template-columns:130px 1fr;min-height:42px;border:1px dashed #d8797a;border-radius:6px;overflow:hidden;text-align:center}
+.bookfacts b{background:var(--teal);color:#fff;display:grid;place-items:center;padding:5px;font-size:13px;font-weight:700}
+.bookfacts span{display:grid;place-items:center;padding:5px;font-size:13.5px}
+.productchips{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.productchips a{background:#f3f3f3;padding:4px 12px;border-radius:4px;font-size:12.5px;color:#555}
+.productchips a:hover{background:var(--teal-light);color:var(--teal-dark)}
+.product-tabs{border-top:1px solid var(--line);margin-top:26px}
+.product-tabs details{border-bottom:1px solid var(--line);padding:14px 6px}
+.product-tabs summary{font-size:16.5px;font-weight:900;cursor:pointer;color:#282828;list-style:none;position:relative;padding-left:22px}
+.product-tabs summary::-webkit-details-marker{display:none}
+.product-tabs summary::after{content:"+";position:absolute;left:4px;top:0;font-size:20px;color:var(--teal)}
+.product-tabs details[open] summary::after{content:"−"}
+.details-table{max-width:860px;margin-top:12px}
+.details-table p{display:grid;grid-template-columns:190px 1fr;border-bottom:1px solid #f0f0f0;margin:0}
+.details-table p b,.details-table p span{padding:9px 12px;font-weight:400}
+.details-table p b{background:#f9f9f9;font-weight:700;color:#555}
+.review{border-bottom:1px solid var(--line);padding:14px 0}
+.stars{color:#f5a623;letter-spacing:2px;direction:ltr;display:inline-block}
+.review small{color:var(--muted)}
+.reviewform .formbox{margin-top:12px}
+
+/* ---------- فرم‌ها ---------- */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:end}
+.filters input,.filters select,.formbox input,.formbox select,.formbox textarea,.lookup input{border:1px solid #ddd;border-radius:var(--radius);background:#fff;padding:9px 12px;font-size:13.5px}
+.filters input{flex:1;min-width:170px}
+.filters input:focus,.formbox input:focus,.formbox select:focus,.formbox textarea:focus{outline:2px solid #f3c1c2;border-color:var(--red)}
+.formbox{background:#fff;border:1px solid var(--line);padding:22px;border-radius:10px;box-shadow:var(--shadow)}
+.formbox p{display:flex;flex-direction:column;gap:5px}
+.formbox ul,.helptext{font-size:12px;color:var(--muted)}
+label{font-weight:700;font-size:13px}
+
+/* ---------- صفحه فروشگاه با سایدبار ---------- */
+.shoplayout{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start;padding-top:8px}
+.shopsidebar{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;position:sticky;top:64px;max-height:calc(100vh - 80px);overflow:auto}
+.shopsidebar h3{font-size:15px;margin:0 0 8px;color:var(--ink);border-bottom:2px solid var(--teal);padding-bottom:6px}
+.shopsidebar .sidelinks{display:flex;flex-direction:column;gap:2px}
+.shopsidebar .sidelinks a{padding:6px 10px;border-radius:6px;font-size:13px;color:#555}
+.shopsidebar .sidelinks a:hover{background:var(--teal-light);color:var(--teal-dark)}
+.shopsidebar .sidelinks a.active{background:var(--red);color:#fff;font-weight:700}
+.shopsidebar .subtree{margin-right:14px;border-right:1px dashed #ddd;padding-right:8px}
+.shopsidebar .subtree a{font-size:12.5px}
+.sortbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px}
+.sortbar .sortlinks{display:flex;gap:6px;flex-wrap:wrap}
+.sortbar .sortlinks a{background:#fff;border:1px solid var(--line);border-radius:20px;padding:3px 14px;font-size:12.5px;color:#555}
+.sortbar .sortlinks a.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.sortbar .count{margin-right:auto;color:var(--muted);font-size:12.5px}
+.deadeyes{color:var(--muted)}
+
+/* ---------- صفحه‌بندی ---------- */
+.pagination{display:flex;gap:6px;justify-content:center;padding:26px 0 6px;flex-wrap:wrap}
+.pagination a,.pagination span{background:#fff;border:1px solid var(--line);border-radius:6px;padding:6px 13px;font-size:13px;color:#555}
+.pagination .current{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+.pagination a:hover{border-color:var(--red);color:var(--red)}
+
+/* ---------- سبد خرید ---------- */
+.cartlayout{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+.cartitems,.summary{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;box-shadow:var(--shadow)}
+.cartline{display:flex;align-items:center;gap:15px;padding:12px 0;border-bottom:1px solid var(--line)}
+.cartline img,.mini-cover{width:56px;height:74px;object-fit:contain;background:#fafafa;border-radius:6px;border:1px solid var(--line)}
+.carttitle{flex:1}
+.carttitle small{display:block;color:var(--muted)}
+.qtyform{display:flex;gap:5px;align-items:center}
+.qtyform input{width:58px;border:1px solid var(--line);border-radius:6px;padding:5px;text-align:center}
+.qtyform button,.remove{border:0;background:none;color:var(--teal);font-size:12px;font-weight:700}
+.remove{color:#a44}
+.summary h3{margin-top:0}
+.summary p{display:flex;justify-content:space-between;gap:12px}
+.summary .grand{font-weight:900;font-size:15.5px;color:var(--red)}
+.summary small{color:var(--muted)}
+.full{display:block;text-align:center;width:100%;margin:15px 0}
+.subtle{display:block;text-align:center;font-size:13px}
+.empty{padding:35px;text-align:center;background:var(--soft);border-radius:10px;color:var(--muted);grid-column:1/-1}
+.freeship-note{background:#e9f6ee;border:1px dashed #2e9e5b;color:#1d6b3d;border-radius:8px;padding:9px 14px;font-size:13px;margin:10px 0}
+
+/* ---------- صفحات محتوایی ---------- */
+.pagehead{padding:30px 0 18px}
+.pagehead h1{margin:0;font-size:27px;font-weight:900}
+.pagehead p,.muted{color:var(--muted)}
+.reading{max-width:860px;margin:20px auto;line-height:2.2;font-size:14.5px}
+.reading h1{font-size:28px}
+.reading h2{margin-top:30px;font-size:20px;border-right:4px solid var(--teal);padding-right:10px}
+.prose{max-width:820px;line-height:2.2}
+.locked{text-align:center;background:#fff7ec;border:1px dashed var(--orange);padding:35px;border-radius:12px;margin:40px 0}
+.locked>span{font-size:44px}
+.infoitems{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.infoitems section,.ticket{padding:16px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.infoitems h3{margin:0;font-size:15px}
+.ticket{margin-bottom:12px}
+.ticket small{display:block;color:var(--muted)}
+.reply{padding:10px;background:var(--teal-light);border-radius:8px}
+.ticketgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.authbox{max-width:450px;margin:40px auto;text-align:center}
+.authbox .formbox{text-align:right}
+.center{text-align:center}
+.lookup{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+.lookup label{display:flex;flex-direction:column;gap:5px}
+.orderresult{margin-top:20px;max-width:640px}
+
+/* ---------- الماس / پلن‌ها ---------- */
+.diamondhero{display:flex;gap:24px;align-items:center;background:linear-gradient(120deg,var(--teal-light),#fff);border:1px solid var(--line);padding:32px;border-radius:14px;margin-top:24px}
+.diamondhero>span{font-size:60px}
+.diamondhero h1{margin:0}
+.topiclist{padding:20px;background:#fff;border:1px solid var(--line);border-radius:10px;margin:18px 0;color:var(--muted)}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chips a{border:1px solid var(--line);padding:5px 14px;border-radius:30px;background:#fff;font-size:13px}
+.chips a.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.planrow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.plancard{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:24px;text-align:center;transition:border-color .15s}
+.plancard:hover{border-color:var(--teal)}
+.plancard strong{display:block;font-size:22px;color:var(--teal);font-weight:900}
+
+/* ---------- سیخ کباب ---------- */
+.kebab-hero{background:linear-gradient(120deg,#fff2e6,#fff);border:1px solid #f5ddc0;border-radius:14px;padding:30px;margin-top:24px;display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+.kebab-hero .kicon{font-size:58px}
+.kebab-hero h1{margin:0 0 6px}
+.kebab-points{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.kebab-points>div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center}
+.kebab-points b{display:block;font-size:24px;color:var(--orange);font-weight:900}
+.leaderboard{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 0}
+.leaderboard table{width:100%;border-collapse:collapse;font-size:13.5px}
+.leaderboard th,.leaderboard td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:right}
+.leaderboard th{background:var(--soft);font-size:12.5px;color:#666}
+.leaderboard tr.me td{background:#fff7ec;font-weight:700}
+.leaderboard .rank-badge{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--soft);font-size:12px;font-weight:900}
+.leaderboard .rank-badge.gold{background:#ffd76e}
+.leaderboard .rank-badge.silver{background:#dfe3e8}
+.leaderboard .rank-badge.bronze{background:#edc3a0}
+.wheelbox{display:flex;flex-direction:column;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:26px;margin:18px 0}
+.wheel{width:260px;height:260px;border-radius:50%;border:10px solid var(--red);position:relative;overflow:hidden;transition:transform 4.2s cubic-bezier(.15,.85,.25,1);background:conic-gradient(var(--teal) 0 45deg,var(--red) 45deg 90deg,var(--orange) 90deg 135deg,var(--teal) 135deg 180deg,var(--red) 180deg 225deg,var(--orange) 225deg 270deg,var(--teal) 270deg 315deg,var(--red) 315deg 360deg)}
+.wheel::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.35) 0 8%,transparent 9%)}
+.wheel-label{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.wheel-label b{background:#fff;border-radius:50%;width:64px;height:64px;display:grid;place-items:center;font-size:12px;font-weight:900;box-shadow:0 0 0 4px rgba(0,0,0,.06)}
+.wheel-pointer{font-size:26px;color:var(--red);line-height:1;margin-bottom:-6px}
+.wheel-result{background:var(--teal-light);color:var(--teal-dark);border-radius:8px;padding:10px 18px;font-weight:700}
+
+/* ---------- مقالات ---------- */
+.articlegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.articlecard{display:flex;align-items:flex-start;gap:14px;padding:16px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow)}
+.articlecard h3{font-size:15px;margin:0}
+.articlecard p{font-size:13px;color:var(--muted);margin:5px 0}
+.articlecard small{color:var(--teal)}
+.articleicon{font-size:24px;background:var(--teal-light);border-radius:10px;padding:10px}
+.topiclabels{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.topiclabels span{font-size:10.5px;background:var(--teal-light);padding:2px 9px;border-radius:20px;color:var(--teal-dark)}
+
+/* ---------- حساب کاربری ---------- */
+.accountcards{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.accountcards>section{min-width:0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px}
+table.plain{width:100%;border-collapse:collapse;font-size:13px}
+table.plain th,table.plain td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}
+table.plain th{background:var(--soft);font-size:12px;color:#666}
+
+/* ---------- فوتر فیروزه‌ای مثل سایت اصلی ---------- */
+footer{margin-top:50px}
+.footer-perks{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:16px 0;border-bottom:1px solid #ddd;font-size:12px;color:#444}
+.footer-teal{background:var(--teal);color:#fff;padding:34px 0 20px;margin-top:0}
+.footer-teal .footergrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:34px;padding-bottom:26px}
+.footer-teal h3,.footer-teal h4{margin-top:0;color:#fff;font-size:15px}
+.footer-teal p{font-size:12.5px;color:#d8efee;line-height:2}
+.footer-teal a{display:block;font-size:12.5px;color:#eafaf9;padding:3px 0}
+.footer-teal a:hover{color:#fff;text-decoration:underline}
+.footer-teal .roundcol{background:rgba(255,255,255,.09);border-radius:90px;padding:24px 26px}
+.footer-teal .footer-phones{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;font-weight:900}
+.footer-teal .footer-phones a{display:inline}
+.copyright{text-align:center;border-top:1px solid rgba(255,255,255,.18);padding:12px;color:#cdeeed;font-size:12px;background:var(--teal)}
+
+/* ---------- نوار پایین چسبان ---------- */
+.sticky-notice{position:fixed;z-index:40;bottom:0;left:0;right:0;min-height:48px;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;gap:14px;padding:7px 12px;font-size:13px;box-shadow:0 -2px 8px rgba(0,0,0,.25)}
+.sticky-notice a{white-space:nowrap;color:#59c3bd;font-weight:700}
+.sticky-close{background:none;border:0;color:#fff;font-size:17px;cursor:pointer}
+
+/* ---------- صفحهٔ محتوا عمومی ---------- */
+.contentbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:26px;box-shadow:var(--shadow)}
+.spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}
+.spec-grid>div{background:var(--soft);border-radius:8px;padding:14px 18px;font-size:13.5px}
+.spec-grid b{color:var(--teal-dark)}
+
+/* ---------- واکنش‌گرا ---------- */
+@media(max-width:1000px){
+  .bookgrid,.pubrow{grid-template-columns:repeat(3,1fr)}
+  .trustbar{grid-template-columns:repeat(3,1fr)}
+  .publisher-strip{grid-template-columns:repeat(4,1fr)}
+  .footer-teal .footergrid{grid-template-columns:1fr 1fr}
+  .shoplayout{grid-template-columns:1fr}
+  .shopsidebar{position:static;max-height:none}
+}
+@media(max-width:760px){
+  .header{grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:10px}
+  .brand{grid-column:1/-1;grid-row:1}
+  .header-account{grid-column:1;grid-row:2}
+  .search{grid-column:2;grid-row:2;width:190px}
+  .navlinks{overflow-x:auto}
+  .navlinks a{padding:9px 12px;font-size:12.5px}
+  .bookgrid,.pubrow{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .cover{height:170px}
+  .productdetail{grid-template-columns:1fr;gap:20px}
+  .cartlayout,.ticketgrid,.infoitems,.planrow,.why{grid-template-columns:1fr}
+  .trustbar{grid-template-columns:repeat(2,1fr)}
+  .publisher-strip{grid-template-columns:repeat(3,1fr)}
+  .footer-teal .footergrid{grid-template-columns:1fr}
+  .footer-teal .roundcol{border-radius:40px}
+  .topbar .topbar-links{display:none}
+  .kebab-points{grid-template-columns:1fr}
+  .accountcards{grid-template-columns:1fr}
+  .pagehead h1{font-size:23px}
+  .sticky-notice{font-size:11px;gap:7px;flex-wrap:wrap}
+  .sticky-notice span{display:none}
+  .details-table p{grid-template-columns:130px 1fr}
+  .bookfacts>div{grid-template-columns:110px 1fr}
+}
+@media(max-width:420px){
+  .brand{font-size:25px}
+  .search{width:150px}
+  .headbutton{font-size:11.5px;padding:7px 10px}
+  .bookgrid,.pubrow{gap:8px}
+  .bookcard{padding:8px}
+}

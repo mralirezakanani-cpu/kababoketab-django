@@ -1,0 +1,40 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<main class="kb" style="max-width:900px">
+<section class="kb-panel">
+<h2>همگام‌سازی دستی</h2>
+<p>با هر اجرا، قیمت و موجودی از منبع خوانده و به‌عنوان پیشنهاد ثبت می‌شود؛ اگر «اعمال روی فروشگاه» را بزنید، طبق سیاست هر منبع قیمت و موجودی کتاب‌ها هم به‌روز می‌شود.</p>
+<form method="post" style="display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:14px 0">{% csrf_token %}
+<label style="display:flex;flex-direction:column;gap:4px">منبع
+<select name="source">
+<option value="">همهٔ منبع‌های فعال</option>
+{% for source in sources %}<option value="{{ source.slug }}">{{ source.name }}</option>{% endfor %}
+</select></label>
+<label style="display:flex;align-items:center;gap:6px"><input type="checkbox" name="apply" checked> اعمال روی فروشگاه</label>
+<button type="submit" class="button default">اجرای همگام‌سازی</button>
+</form>
+<p><small>ربات روزانه: تسک ویندوز «KababBookDailySync» ساعت ۰۴:۰۰ اجرا می‌شود (ثبت با <code>scripts\register_daily_task.ps1</code>). گزارش کامل در <code>logs\daily_sync.log</code>.</small></p>
+</section>
+<section class="kb-panel">
+<h2>منبع‌ها</h2>
+<table class="kb-table">
+<thead><tr><th>نام</th><th>قالب</th><th>فعال؟</th><th>مرجع قیمت</th><th>مرجع موجودی</th><th>اعمال</th><th>آخرین همگام‌سازی</th><th>گزارش</th><th></th></tr></thead>
+<tbody>
+{% for source in sources %}
+<tr>
+<td><a href="{% url 'admin:store_suppliersource_change' source.pk %}">{{ source.name }}</a></td>
+<td>{{ source.get_format_display }}</td>
+<td>{{ source.enabled|yesno:"✔,✖" }}</td>
+<td>{{ source.use_for_price|yesno:"✔,✖" }}</td>
+<td>{{ source.use_for_stock|yesno:"✔,✖" }}</td>
+<td>{{ source.update_store_prices|yesno:"✔,✖" }}</td>
+<td>{{ source.last_sync_at|date:"Y/m/d H:i"|default:"—" }}</td>
+<td>{{ source.last_sync_status|default:"—" }} — {{ source.last_sync_message|truncatechars:60 }}</td>
+<td><a class="button" href="{% url 'admin:store_suppliersource_changelist' %}">تنظیمات</a></td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</section>
+</main>
+{% endblock %}

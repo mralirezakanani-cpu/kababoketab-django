@@ -1,0 +1,1 @@
+{% extends 'store/base.html' %}{% block title %}سوالات متداول | کباب و کتاب{% endblock %}{% block content %}<article class="reading"><span class="eyebrow">راهنمای خرید</span><h1>سوالات متداول</h1><div class="faq-list">{% for question, answer in questions %}<details><summary>{{ question }}</summary><p>{{ answer }}</p></details>{% endfor %}</div></article>{% endblock %}

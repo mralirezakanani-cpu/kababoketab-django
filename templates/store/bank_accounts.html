@@ -1,0 +1,17 @@
+{% extends 'store/base.html' %}
+{% block title %}شماره حساب‌ها | کباب و کتاب{% endblock %}
+{% block meta_description %}شماره حساب‌ها و شباهای رسمی کتابفروشی کباب و کتاب برای واریز مستقیم.{% endblock %}
+{% block content %}
+<div class="pagehead"><h1>شماره حساب‌ها</h1><p>برای واریز مستقیم فقط به حساب‌های زیر که به نام فروشگاه است اعتماد کنید. پس از واریز، حتماً با پشتیبانی تماس بگیرید یا تیکت ثبت کنید تا رسید بررسی شود.</p></div>
+<div class="contentbox">
+<table class="plain">
+<thead><tr><th>بانک</th><th>صاحب حساب</th><th>شماره حساب</th><th>شبا</th></tr></thead>
+<tbody>
+{% for account in accounts %}
+<tr><td><b>{{ account.bank }}</b></td><td>{{ account.owner }}</td><td dir="ltr">{{ account.number }}</td><td dir="ltr">{{ account.sheba }}</td></tr>
+{% endfor %}
+</tbody>
+</table>
+<p class="muted" style="font-size:13px">شماره حساب‌های دقیق از طریق پشتیبانی (۰۲۱-۶۶۴۱۰۹۷۶) تأیید می‌شود؛ این صفحه صرفاً چارچوب رسمی واریز را نشان می‌دهد.</p>
+</div>
+{% endblock %}

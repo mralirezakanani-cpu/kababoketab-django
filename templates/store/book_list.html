@@ -1,0 +1,61 @@
+{% extends 'store/base.html' %}
+{% block title %}{% if query %}جست‌وجوی «{{ query }}»{% elif selected_category_obj %}{{ selected_category_obj.name }} | خرید کتاب{% else %}خرید کتاب | فروشگاه اینترنتی کباب و کتاب{% endif %}{% endblock %}
+{% block meta_description %}{% if selected_category_obj %}خرید آنلاین کتاب‌های {{ selected_category_obj.name }} با تخفیف و ارسال سریع از کتابفروشی کباب و کتاب.{% else %}فروشگاه اینترنتی کباب و کتاب؛ خرید آنلاین کتاب با تخفیف، فیلتر موضوع، ناشر، سال انتشار و قیمت.{% endif %}{% endblock %}
+{% block content %}
+<div class="crumb"><a href="{% url 'home' %}">خانه</a> » <a href="{% url 'book_list' %}">فروشگاه</a>{% if selected_category_obj %} » {{ selected_category_obj.name }}{% endif %}</div>
+<div class="pagehead" style="padding-top:6px">
+<h1>{% if query %}نتایج جست‌وجوی «{{ query }}»{% elif selected_category_obj %}{{ selected_category_obj.name }}{% else %}خرید کتاب از میان رمان، ادبیات، علم و کتاب کودک{% endif %}</h1>
+<p>برای هر طعم و سلیقه‌ای کتاب داریم؛ فیلترها را امتحان کنید یا از مرتب‌سازی استفاده کنید.</p>
+</div>
+<div class="shoplayout">
+<aside class="shopsidebar">
+<h3>موضوع کتاب‌ها</h3>
+<div class="sidelinks">
+<a href="{% url 'book_list' %}{% if query_string %}?{{ query_string|safe }}{% endif %}" {% if not selected_category %}class="active"{% endif %}>همهٔ موضوع‌ها</a>
+{% for c in categories %}
+<a href="{% url 'book_list' %}?category={{ c.slug }}" {% if selected_category == c.slug or selected_category == c.pk|stringformat:'s' %}class="active"{% endif %}>{{ c.name }}</a>
+{% if c.children.all %}<div class="subtree sidelinks">{% for sub in c.children.all %}<a href="{% url 'book_list' %}?category={{ sub.slug }}" {% if selected_category == sub.slug or selected_category == sub.pk|stringformat:'s' %}class="active"{% endif %}>{{ sub.name }}</a>{% endfor %}</div>{% endif %}
+{% endfor %}
+</div>
+<h3 style="margin-top:18px">دستهٔ سریع</h3>
+<div class="sidelinks">
+<a href="{% url 'book_list' %}?discounted=1" {% if discounted == '1' %}class="active"{% endif %}>🏷️ فقط تخفیف‌دارها</a>
+<a href="{% url 'book_list' %}?stock=1" {% if in_stock == '1' %}class="active"{% endif %}>✅ فقط موجودها</a>
+</div>
+<h3 style="margin-top:18px">فیلتر پیشرفته</h3>
+<form method="get" action="{% url 'book_list' %}">
+<input type="hidden" name="category" value="{% if selected_category_obj %}{{ selected_category_obj.slug }}{% endif %}">
+<p style="display:flex;flex-direction:column;gap:4px;margin:8px 0"><label>ناشر</label><select name="publisher"><option value="">همهٔ ناشرها</option>{% for p in publishers %}<option value="{{ p.id }}" {% if selected_publisher == p.id|stringformat:'s' %}selected{% endif %}>{{ p.name }}</option>{% endfor %}</select></p>
+<p style="display:flex;flex-direction:column;gap:4px;margin:8px 0"><label>دههٔ انتشار</label><select name="decade"><option value="">همهٔ دهه‌ها</option>{% for d in decades %}<option value="{{ d }}" {% if selected_decade == d|stringformat:'s' %}selected{% endif %}>دههٔ {{ d }}</option>{% endfor %}</select></p>
+<p style="display:flex;flex-direction:column;gap:4px;margin:8px 0"><label>سال انتشار</label><select name="year"><option value="">همهٔ سال‌ها</option>{% for y in years %}<option value="{{ y }}" {% if selected_year == y|stringformat:'s' %}selected{% endif %}>{{ y }}</option>{% endfor %}</select></p>
+<p style="display:flex;gap:6px;margin:8px 0"><input name="min_price" type="number" min="0" style="width:50%" value="{{ selected_min_price }}" placeholder="از (تومان)"><input name="max_price" type="number" min="0" style="width:50%" value="{{ selected_max_price }}" placeholder="تا (تومان)"></p>
+<button class="btn teal full" type="submit">اعمال فیلتر</button>
+</form>
+</aside>
+<div>
+<form method="get" action="{% url 'book_list' %}" class="sortbar">
+<span>مرتب‌سازی:</span>
+<div class="sortlinks">
+<a href="?{% if query_string %}{{ query_string|safe }}&{% endif %}sort=" {% if not selected_sort %}class="active"{% endif %}>جدیدترین</a>
+<a href="?{% if query_string %}{{ query_string|safe }}&{% endif %}sort=popular" {% if selected_sort == 'popular' %}class="active"{% endif %}>محبوب‌ترین</a>
+<a href="?{% if query_string %}{{ query_string|safe }}&{% endif %}sort=cheap" {% if selected_sort == 'cheap' %}class="active"{% endif %}>ارزان‌ترین</a>
+<a href="?{% if query_string %}{{ query_string|safe }}&{% endif %}sort=expensive" {% if selected_sort == 'expensive' %}class="active"{% endif %}>گران‌ترین</a>
+<a href="?{% if query_string %}{{ query_string|safe }}&{% endif %}sort=rating" {% if selected_sort == 'rating' %}class="active"{% endif %}>بیشترین امتیاز</a>
+</div>
+<span class="count">{{ page_obj.paginator.count }} کتاب — صفحهٔ {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>
+</form>
+<div class="bookgrid">
+{% for book in books %}{% include 'store/_book_card.html' with book=book %}{% empty %}
+<div class="empty">کتابی با این مشخصات پیدا نشد. <a href="{% url 'tickets' %}">برای موجودی یا قیمت از پشتیبانی بپرسید</a>.</div>
+{% endfor %}
+</div>
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="pagination" aria-label="صفحه‌های کتاب‌ها">
+{% if page_obj.has_previous %}<a href="?{% if query_string %}{{ query_string|safe }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">قبلی</a>{% endif %}
+<span class="current">صفحهٔ {{ page_obj.number }}</span>
+{% if page_obj.has_next %}<a href="?{% if query_string %}{{ query_string|safe }}&amp;{% endif %}page={{ page_obj.next_page_number }}">بعدی</a>{% endif %}
+</nav>
+{% endif %}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block extrastyle %}{{ block.super }}<style>
+.customer-page{direction:rtl;font-family:Tahoma,sans-serif}.customer-page h1{margin-bottom:18px}.customer-search{display:flex;gap:8px;margin:16px 0 22px}.customer-search input{max-width:500px;flex:1;padding:11px;border:1px solid var(--border-color,#ccc);border-radius:7px}.customer-search button,.customer-search a{padding:10px 16px;border:0;border-radius:7px;background:#a7472e;color:white;text-decoration:none;cursor:pointer}.customer-table{width:100%;border-collapse:collapse;background:var(--body-bg,#fff)}.customer-table th,.customer-table td{padding:12px 10px;border-bottom:1px solid var(--hairline-color,#ddd);text-align:right}.customer-table th{background:var(--darkened-bg,#f3f3f3)}.customer-table a{font-weight:bold}.customer-pagination{display:flex;gap:14px;align-items:center;margin:18px 0}.customer-muted{color:var(--body-quiet-color,#777)}
+</style>{% endblock %}
+{% block content %}<main class="customer-page">
+<h1>مشتریان و سوابق سفارش</h1>
+<p class="customer-muted">جست‌وجو با نام، شماره موبایل، ایمیل یا نام کاربری انجام می‌شود. سفارش‌های مهمان هم بر اساس شماره موبایل پیدا می‌شوند.</p>
+<form class="customer-search" method="get"><input name="q" value="{{ query }}" placeholder="نام مشتری، موبایل، ایمیل یا نام کاربری" autofocus><button type="submit">جست‌وجو</button>{% if query %}<a href="{% url 'admin:store-customers' %}">پاک کردن</a>{% endif %}</form>
+<table class="customer-table"><thead><tr><th>نام مشتری</th><th>موبایل</th><th>ایمیل</th><th>تعداد سفارش</th><th>آخرین سفارش</th><th>پرونده</th></tr></thead><tbody>
+{% for customer in customers %}<tr><td>{{ customer.name }}</td><td>{{ customer.phone|default:"—" }}</td><td>{{ customer.email|default:"—" }}</td><td>{{ customer.order_count }}</td><td>{% if customer.latest_order %}<a href="{% url 'admin:store_order_change' customer.latest_order.pk %}">{{ customer.latest_order.tracking_code }}</a> <span class="customer-muted">{{ customer.latest_order.created_at|date:"Y/m/d" }}</span>{% else %}—{% endif %}</td><td>{% if customer.phone %}<a href="{% url 'admin:store-customer-detail' %}?phone={{ customer.phone|urlencode }}">مشاهده</a>{% else %}<a href="{% url 'admin:store-customer-detail' %}?user_id={{ customer.user_id }}">مشاهده</a>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="6">{% if query %}مشتری یا سفارشی با این مشخصات پیدا نشد.{% else %}هنوز سفارشی ثبت نشده است.{% endif %}</td></tr>{% endfor %}
+</tbody></table>
+{% if page_obj.paginator.num_pages > 1 %}<nav class="customer-pagination">{% if page_obj.has_previous %}<a href="?q={{ query|urlencode }}&page={{ page_obj.previous_page_number }}">صفحه قبل</a>{% endif %}<span>صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>{% if page_obj.has_next %}<a href="?q={{ query|urlencode }}&page={{ page_obj.next_page_number }}">صفحه بعد</a>{% endif %}</nav>{% endif %}
+</main>{% endblock %}
