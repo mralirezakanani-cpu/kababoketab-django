@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 from .forms import CheckoutExtrasForm, CheckoutForm, RegisterForm, ReturnRequestForm, ReviewForm, TicketForm, WalletTopUpForm
 from .models import Article, Book, Category, Coupon, CouponRedemption, KebabAccount, KebabLedger, Membership, MembershipPlan, Order, OrderItem, Publisher, Review, StoreSetting, SupportTicket, ReturnRequest, ShippingRate, SummaryTopic, WalletAccount, WalletTransaction, WheelPrize
 from .utils import normalize_phone
-from .wallet_services import award_kebab_for_order
+from .wallet_services import award_kebab_for_order, settle_order_discounts
 import secrets
 import random
 from datetime import timedelta
@@ -549,3 +549,29 @@ def bank_accounts(request):
 
 
 
+
+
+@require_POST
+@login_required
+def mock_payment(request, tracking_code):
+    """درگاه پرداخت آزمایشی (توسعه) — سفارش در انتظار پرداخت را تسویه می‌کند.
+
+    فقط وقتی settings.MOCK_PAYMENTS فعال است کار می‌کند؛ در production غیرفعال شود.
+    """
+    if not getattr(settings, "MOCK_PAYMENTS", False):
+        messages.error(request, "پرداخت آزمایشی در این محیط غیرفعال است.")
+        return redirect("home")
+    order = get_object_or_404(Order, tracking_code=tracking_code.strip().upper(), user=request.user)
+    if order.status != "pending":
+        messages.info(request, "این سفارش قابل پرداخت آزمایشی نیست.")
+        return redirect("order_confirmation")
+    with transaction.atomic():
+        order.status = "paid"
+        order.save(update_fields=["status"])
+        settle_order_discounts(order, order.status)
+    messages.success(request, f"پرداخت آزمایشی سفارش {order.tracking_code} انجام شد.")
+    return redirect("order_confirmation")
+
+
+def robots(request):
+    return render(request, "store/robots.txt", content_type="text/plain; charset=utf-8")

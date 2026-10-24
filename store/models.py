@@ -60,6 +60,12 @@ class Book(models.Model):
         ordering = ["-created_at"]
         verbose_name = "کتاب"
         verbose_name_plural = "کتاب‌ها"
+        indexes = [
+            models.Index(fields=["isbn"], name="store_book_isbn_idx"),
+            models.Index(fields=["code"], name="store_book_code_idx"),
+            models.Index(fields=["stock"], name="store_book_stock_idx"),
+            models.Index(fields=["publication_year"], name="store_book_year_idx"),
+        ]
     def __str__(self): return self.title
     @property
     def current_price(self): return self.sale_price if self.sale_price is not None else self.price

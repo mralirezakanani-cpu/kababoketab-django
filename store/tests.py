@@ -290,3 +290,31 @@ class RateLimitAndSecurityTests(SetupMixin, TestCase):
         form = r.context["form"]
         self.assertFalse(form.is_valid())
         self.assertTrue(any("عددی" in str(err) or "numeric" in str(err).lower() for errs in form.errors.values() for err in errs) or form.errors)
+
+
+class SuggestionsTests(SetupMixin, TestCase):
+    def test_robots_txt(self):
+        r = self.client.get("/robots.txt")
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, "Sitemap:")
+
+    def test_sitemap_xml(self):
+        r = self.client.get("/sitemap.xml")
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, "test-book")
+
+    def test_mock_payment_settles_pending_order(self):
+        from django.core.cache import cache
+        cache.clear()
+        self.client.force_login(self.user)
+        order = Order.objects.create(user=self.user, tracking_code="MOCKPAY1", customer_name="م", phone="09120000000", shipping_method="pickup", subtotal=50_000, status="pending")
+        r = self.client.post(reverse("mock_payment", args=["mockpay1"]))
+        order.refresh_from_db()
+        self.assertEqual(order.status, "paid")
+        self.kebab.refresh_from_db()
+        self.assertEqual(self.kebab.points, 5)
+
+    def test_book_indexes_exist(self):
+        from .models import Book
+        names = {idx.name for idx in Book._meta.indexes}
+        self.assertIn("store_book_isbn_idx", names)
